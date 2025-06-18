@@ -1,3 +1,10 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -9,8 +16,30 @@
 </head>
 <body>
 
+<h1>Página de Indice</h1>
+
 <?php
-    echo "<h1>Página de Indice</h1>";
+include_once "model/DAL/usuario.php";
+include_once "model/usuario.php";
+
+$dalUsuario = new \DAL\Usuario();
+
+$usernameToSearch = "isper";
+
+try {
+    $usuario = $dalUsuario->SelectUsuario($usernameToSearch);
+
+    if ($usuario !== null) {
+        echo "<p>ID: " . $usuario->getId() . "</p>";
+        echo "<p>Usuário: " . $usuario->getUsuario() . "</p>";
+        echo "<p>Senha: " . $usuario->getSenha() . "</p>";
+    } else {
+        echo "<p>Usuário '{$usernameToSearch}' não encontrado.</p>";
+    }
+
+} catch (Exception $e) {
+    echo "<p>Ocorreu um erro ao buscar o usuário: " . $e->getMessage() . "</p>";
+}
 ?>
 
 </body>
