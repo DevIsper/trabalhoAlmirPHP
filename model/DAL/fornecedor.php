@@ -4,7 +4,7 @@ namespace MODEL;
 
 class Fornecedor
 {
-    private ?int $cnpj; // CNPJ é a PK no BD, então pode ser int ou string
+    private ?int $cnpj; 
     private ?string $nome;
     private ?string $telefone;
     private ?string $email;
