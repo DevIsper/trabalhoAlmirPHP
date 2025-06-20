@@ -24,7 +24,7 @@ include_once "model/usuario.php";
 
 $dalUsuario = new \DAL\Usuario();
 
-$usernameToSearch = "isper";
+$usernameToSearch = "rannyer";
 
 try {
     $usuario = $dalUsuario->SelectUsuario($usernameToSearch);

@@ -17,7 +17,8 @@ class Usuario {
         return $this->id;
     }
 
-    public function setId(?int $id): self { // setId can accept null now
+
+    public function setId(?int $id): self { 
         $this->id = $id;
         return $this;
     }

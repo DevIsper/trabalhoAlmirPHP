@@ -2,8 +2,8 @@
 
 namespace DAL;
 
-include_once $_SERVER['DOCUMENT_ROOT']. "/model/DAL/conexao.php";
-include_once $_SERVER['DOCUMENT_ROOT']. "/model/usuario.php";
+include_once __DIR__ . "/conexao.php";
+include_once __DIR__ . "/../usuario.php";
 
 use DAL\Conexao;
 
