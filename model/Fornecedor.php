@@ -4,7 +4,7 @@ namespace MODEL;
 
 class Fornecedor
 {
-    private ?int $cnpj; // CNPJ é a PK no BD, então pode ser int ou string
+    private ?string $cnpj;
     private ?string $nome;
     private ?string $telefone;
     private ?string $email;
@@ -20,7 +20,7 @@ class Fornecedor
     }
 
     // Getters
-    public function getCnpj(): ?int
+    public function getCnpj(): ?string
     {
         return $this->cnpj;
     }
@@ -46,7 +46,7 @@ class Fornecedor
     }
 
     // Setters
-    public function setCnpj(?int $cnpj): void
+    public function setCnpj(?string $cnpj): void
     {
         $this->cnpj = $cnpj;
     }
