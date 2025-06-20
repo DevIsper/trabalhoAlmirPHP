@@ -1,127 +1,86 @@
 <?php
 
-namespace DAL;
-
-include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../estoque.php"; // Inclui o modelo Estoque
-
-use DAL\Conexao;
-use MODEL\Estoque as ModelEstoque;
+namespace MODEL;
 
 class Estoque
 {
-    /**
-     * Insere um novo item de estoque no banco de dados.
-     * @param ModelEstoque $estoque O objeto Estoque a ser inserido.
-     * @return bool True se a inserção for bem-sucedida, false caso contrário.
-     */
-    public function Insert(ModelEstoque $estoque): bool
+    private ?int $idEstoque;
+    private ?string $nome;
+    private ?string $tipoEstoque;
+    private ?string $unidadeMedida;
+    private ?float $quantidade; // DECIMAL(10,2) no BD
+    private ?float $precoVenda; // DECIMAL(10,2) no BD
+
+    public function __construct()
     {
-        $sql = "INSERT INTO ESTOQUE (NOME, TIPO_ESTOQUE, UNIDADE_MEDIDA, QUANTIDADE, PRECO_VENDA) VALUES (?, ?, ?, ?, ?);";
-        $con = Conexao::conectar();
-        $query = $con->prepare($sql);
-        $result = $query->execute(array(
-            $estoque->getNome(),
-            $estoque->getTipoEstoque(),
-            $estoque->getUnidadeMedida(),
-            $estoque->getQuantidade(),
-            $estoque->getPrecoVenda()
-        ));
-        Conexao::desconectar();
-        return $result;
+        $this->idEstoque = null;
+        $this->nome = null;
+        $this->tipoEstoque = null;
+        $this->unidadeMedida = null;
+        $this->quantidade = null;
+        $this->precoVenda = null;
     }
 
-    /**
-     * Retorna um item de estoque pelo seu ID.
-     * @param int $id O ID do item de estoque a ser pesquisado.
-     * @return ModelEstoque|null O objeto Estoque se encontrado, ou null se não.
-     */
-    public function SelectById(int $id): ?ModelEstoque
+    // Getters
+    public function getIdEstoque(): ?int
     {
-        $sql = "SELECT * FROM ESTOQUE WHERE idESTOQUE = ?;";
-        $con = Conexao::conectar();
-        $query = $con->prepare($sql);
-        $query->execute(array($id));
-        $linha = $query->fetch(\PDO::FETCH_ASSOC);
-        Conexao::desconectar();
-
-        if ($linha === false) {
-            return null;
-        }
-
-        $estoqueObj = new ModelEstoque();
-        $estoqueObj->setIdEstoque($linha['idESTOQUE']);
-        $estoqueObj->setNome($linha['NOME']);
-        $estoqueObj->setTipoEstoque($linha['TIPO_ESTOQUE']);
-        $estoqueObj->setUnidadeMedida($linha['UNIDADE_MEDIDA']);
-        $estoqueObj->setQuantidade($linha['QUANTIDADE']);
-        $estoqueObj->setPrecoVenda($linha['PRECO_VENDA']);
-
-        return $estoqueObj;
+        return $this->idEstoque;
     }
 
-    /**
-     * Retorna todos os itens de estoque cadastrados.
-     * @return array Um array de objetos ModelEstoque.
-     */
-    public function Select(): array
+    public function getNome(): ?string
     {
-        $sql = "SELECT * FROM ESTOQUE;";
-        $con = Conexao::conectar();
-        $query = $con->prepare($sql);
-        $query->execute();
-        $registros = $query->fetchAll(\PDO::FETCH_ASSOC);
-        Conexao::desconectar();
-
-        $estoques = array();
-        foreach ($registros as $linha) {
-            $estoqueObj = new ModelEstoque();
-            $estoqueObj->setIdEstoque($linha['idESTOQUE']);
-            $estoqueObj->setNome($linha['NOME']);
-            $estoqueObj->setTipoEstoque($linha['TIPO_ESTOQUE']);
-            $estoqueObj->setUnidadeMedida($linha['UNIDADE_MEDIDA']);
-            $estoqueObj->setQuantidade($linha['QUANTIDADE']);
-            $estoqueObj->setPrecoVenda($linha['PRECO_VENDA']);
-            $estoques[] = $estoqueObj;
-        }
-        return $estoques;
+        return $this->nome;
     }
 
-    /**
-     * Atualiza os dados de um item de estoque existente.
-     * @param ModelEstoque $estoque O objeto Estoque com os dados atualizados.
-     * @return bool True se a atualização for bem-sucedida, false caso contrário.
-     */
-    public function Update(ModelEstoque $estoque): bool
+    public function getTipoEstoque(): ?string
     {
-        $sql = "UPDATE ESTOQUE SET NOME = ?, TIPO_ESTOQUE = ?, UNIDADE_MEDIDA = ?, QUANTIDADE = ?, PRECO_VENDA = ? WHERE idESTOQUE = ?;";
-        $con = Conexao::conectar();
-        $query = $con->prepare($sql);
-        $result = $query->execute(array(
-            $estoque->getNome(),
-            $estoque->getTipoEstoque(),
-            $estoque->getUnidadeMedida(),
-            $estoque->getQuantidade(),
-            $estoque->getPrecoVenda(),
-            $estoque->getIdEstoque()
-        ));
-        Conexao::desconectar();
-        return $result;
+        return $this->tipoEstoque;
     }
 
-    /**
-     * Exclui um item de estoque do banco de dados.
-     * @param int $id O ID do item de estoque a ser excluído.
-     * @return bool True se a exclusão for bem-sucedida, false caso contrário.
-     */
-    public function Delete(int $id): bool
+    public function getUnidadeMedida(): ?string
     {
-        $sql = "DELETE FROM ESTOQUE WHERE idESTOQUE = ?;";
-        $con = Conexao::conectar();
-        $query = $con->prepare($sql);
-        $result = $query->execute(array($id));
-        Conexao::desconectar();
-        return $result;
+        return $this->unidadeMedida;
+    }
+
+    public function getQuantidade(): ?float
+    {
+        return $this->quantidade;
+    }
+
+    public function getPrecoVenda(): ?float
+    {
+        return $this->precoVenda;
+    }
+
+    // Setters
+    public function setIdEstoque(?int $idEstoque): void
+    {
+        $this->idEstoque = $idEstoque;
+    }
+
+    public function setNome(?string $nome): void
+    {
+        $this->nome = $nome;
+    }
+
+    public function setTipoEstoque(?string $tipoEstoque): void
+    {
+        $this->tipoEstoque = $tipoEstoque;
+    }
+
+    public function setUnidadeMedida(?string $unidadeMedida): void
+    {
+        $this->unidadeMedida = $unidadeMedida;
+    }
+
+    public function setQuantidade(?float $quantidade): void
+    {
+        $this->quantidade = $quantidade;
+    }
+
+    public function setPrecoVenda(?float $precoVenda): void
+    {
+        $this->precoVenda = $precoVenda;
     }
 }
 
