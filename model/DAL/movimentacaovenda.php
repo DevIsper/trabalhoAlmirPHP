@@ -21,7 +21,7 @@ class MovimentacaoVenda
      */
     public function Insert(ModelMovimentacaoVenda $movimentacao): bool
     {
-        $sql = "INSERT INTO MOVIMENTACAO_VENDAS (idCLIENTE, DATA_MOVIMENTACAO, QUANTIDADE, DESCRICAO, PRODUTO_VENDA_idPRODUTO_VENDA, idESTOQUE) VALUES (?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO MOVIMENTACAO_VENDAS (idCLIENTE, DATA_MOVIMENTACAO, QUANTIDADE, DESCRICAO, idESTOQUE) VALUES (?, ?, ?, ?, ?);";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $result = $query->execute(array(
@@ -29,7 +29,6 @@ class MovimentacaoVenda
             $movimentacao->getDataMovimentacao(),
             $movimentacao->getQuantidade(),
             $movimentacao->getDescricao(),
-            $movimentacao->getProdutoVendaIdProdutoVenda(),
             $movimentacao->getIdEstoque()
         ));
         Conexao::desconectar();
@@ -40,16 +39,15 @@ class MovimentacaoVenda
      * Retorna uma movimentação de venda pela sua chave primária composta.
      * @param int $idCliente O ID do cliente (parte da PK).
      * @param string $dataMovimentacao A data da movimentação (parte da PK).
-     * @param int $produtoVendaIdProdutoVenda O ID do produto de venda (parte da PK).
      * @param int $idEstoque O ID do estoque (parte da PK).
      * @return ModelMovimentacaoVenda|null O objeto MovimentacaoVenda se encontrado, ou null se não.
      */
-    public function SelectByPK(int $idCliente, string $dataMovimentacao, int $produtoVendaIdProdutoVenda, int $idEstoque): ?ModelMovimentacaoVenda
+    public function SelectByPK(int $idCliente, string $dataMovimentacao, int $idEstoque): ?ModelMovimentacaoVenda
     {
-        $sql = "SELECT * FROM MOVIMENTACAO_VENDAS WHERE idCLIENTE = ? AND DATA_MOVIMENTACAO = ? AND PRODUTO_VENDA_idPRODUTO_VENDA = ? AND idESTOQUE = ?;";
+        $sql = "SELECT * FROM MOVIMENTACAO_VENDAS WHERE idCLIENTE = ? AND DATA_MOVIMENTACAO = ? AND idESTOQUE = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
-        $query->execute(array($idCliente, $dataMovimentacao, $produtoVendaIdProdutoVenda, $idEstoque));
+        $query->execute(array($idCliente, $dataMovimentacao, $idEstoque));
         $linha = $query->fetch(\PDO::FETCH_ASSOC);
         Conexao::desconectar();
 
@@ -62,7 +60,6 @@ class MovimentacaoVenda
         $movimentacaoObj->setDataMovimentacao($linha['DATA_MOVIMENTACAO']);
         $movimentacaoObj->setQuantidade($linha['QUANTIDADE']);
         $movimentacaoObj->setDescricao($linha['DESCRICAO']);
-        $movimentacaoObj->setProdutoVendaIdProdutoVenda($linha['PRODUTO_VENDA_idPRODUTO_VENDA']);
         $movimentacaoObj->setIdEstoque($linha['idESTOQUE']);
 
         return $movimentacaoObj;
@@ -77,11 +74,12 @@ class MovimentacaoVenda
     public function Select(bool $incluirRelacionamentos = false): array
     {
         $sql = "SELECT MV.*,
-                       C.NOME AS CLIENTE_NOME,
-                       E.NOME AS ESTOQUE_NOME
-                FROM MOVIMENTACAO_VENDAS MV
-                LEFT JOIN CLIENTE C ON MV.idCLIENTE = C.idCLIENTE
-                LEFT JOIN ESTOQUE E ON MV.idESTOQUE = E.idESTOQUE;";
+                            C.NOME AS CLIENTE_NOME,
+                            E.NOME AS ESTOQUE_NOME
+                        FROM MOVIMENTACAO_VENDAS MV
+                        LEFT JOIN CLIENTE C ON MV.idCLIENTE = C.idCLIENTE
+                        LEFT JOIN ESTOQUE E ON MV.idESTOQUE = E.idESTOQUE
+                        ORDER BY MV.DATA_MOVIMENTACAO DESC;"; // Adicionado ORDER BY
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $query->execute();
@@ -95,7 +93,6 @@ class MovimentacaoVenda
             $movimentacaoObj->setDataMovimentacao($linha['DATA_MOVIMENTACAO']);
             $movimentacaoObj->setQuantidade($linha['QUANTIDADE']);
             $movimentacaoObj->setDescricao($linha['DESCRICAO']);
-            $movimentacaoObj->setProdutoVendaIdProdutoVenda($linha['PRODUTO_VENDA_idPRODUTO_VENDA']);
             $movimentacaoObj->setIdEstoque($linha['idESTOQUE']);
 
             if ($incluirRelacionamentos) {
@@ -112,13 +109,12 @@ class MovimentacaoVenda
      * @param ModelMovimentacaoVenda $movimentacao O objeto MovimentacaoVenda com os dados atualizados.
      * @param int $oldIdCliente O ID do cliente original (parte da PK).
      * @param string $oldDataMovimentacao A data da movimentação original (parte da PK).
-     * @param int $oldProdutoVendaIdProdutoVenda O ID do produto de venda original (parte da PK).
      * @param int $oldIdEstoque O ID do estoque original (parte da PK).
      * @return bool True se a atualização for bem-sucedida, false caso contrário.
      */
-    public function Update(ModelMovimentacaoVenda $movimentacao, int $oldIdCliente, string $oldDataMovimentacao, int $oldProdutoVendaIdProdutoVenda, int $oldIdEstoque): bool
+    public function Update(ModelMovimentacaoVenda $movimentacao, int $oldIdCliente, string $oldDataMovimentacao, int $oldIdEstoque): bool
     {
-        $sql = "UPDATE MOVIMENTACAO_VENDAS SET idCLIENTE = ?, DATA_MOVIMENTACAO = ?, QUANTIDADE = ?, DESCRICAO = ?, PRODUTO_VENDA_idPRODUTO_VENDA = ?, idESTOQUE = ? WHERE idCLIENTE = ? AND DATA_MOVIMENTACAO = ? AND PRODUTO_VENDA_idPRODUTO_VENDA = ? AND idESTOQUE = ?;";
+        $sql = "UPDATE MOVIMENTACAO_VENDAS SET idCLIENTE = ?, DATA_MOVIMENTACAO = ?, QUANTIDADE = ?, DESCRICAO = ?, idESTOQUE = ? WHERE idCLIENTE = ? AND DATA_MOVIMENTACAO = ? AND idESTOQUE = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $result = $query->execute(array(
@@ -126,11 +122,9 @@ class MovimentacaoVenda
             $movimentacao->getDataMovimentacao(),
             $movimentacao->getQuantidade(),
             $movimentacao->getDescricao(),
-            $movimentacao->getProdutoVendaIdProdutoVenda(),
             $movimentacao->getIdEstoque(),
             $oldIdCliente,
             $oldDataMovimentacao,
-            $oldProdutoVendaIdProdutoVenda,
             $oldIdEstoque
         ));
         Conexao::desconectar();
@@ -141,19 +135,16 @@ class MovimentacaoVenda
      * Exclui uma movimentação de venda do banco de dados.
      * @param int $idCliente O ID do cliente (parte da PK).
      * @param string $dataMovimentacao A data da movimentação (parte da PK).
-     * @param int $produtoVendaIdProdutoVenda O ID do produto de venda (parte da PK).
      * @param int $idEstoque O ID do estoque (parte da PK).
      * @return bool True se a exclusão for bem-sucedida, false caso contrário.
      */
-    public function Delete(int $idCliente, string $dataMovimentacao, int $produtoVendaIdProdutoVenda, int $idEstoque): bool
+    public function Delete(int $idCliente, string $dataMovimentacao, int $idEstoque): bool
     {
-        $sql = "DELETE FROM MOVIMENTACAO_VENDAS WHERE idCLIENTE = ? AND DATA_MOVIMENTACAO = ? AND PRODUTO_VENDA_idPRODUTO_VENDA = ? AND idESTOQUE = ?;";
+        $sql = "DELETE FROM MOVIMENTACAO_VENDAS WHERE idCLIENTE = ? AND DATA_MOVIMENTACAO = ? AND idESTOQUE = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
-        $result = $query->execute(array($idCliente, $dataMovimentacao, $produtoVendaIdProdutoVenda, $idEstoque));
+        $result = $query->execute(array($idCliente, $dataMovimentacao, $idEstoque));
         Conexao::desconectar();
         return $result;
     }
 }
-
-?>
