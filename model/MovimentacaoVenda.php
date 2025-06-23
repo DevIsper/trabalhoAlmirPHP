@@ -8,7 +8,6 @@ class MovimentacaoVenda
     private ?string $dataMovimentacao; // DATE no BD
     private ?float $quantidade;       // DECIMAL(10,2) no BD
     private ?string $descricao;
-    private ?int $produtoVendaIdProdutoVenda; // Não existe no seu schema SQL, verify
     private ?int $idEstoque;
 
     public function __construct()
@@ -17,7 +16,6 @@ class MovimentacaoVenda
         $this->dataMovimentacao = null;
         $this->quantidade = null;
         $this->descricao = null;
-        $this->produtoVendaIdProdutoVenda = null;
         $this->idEstoque = null;
     }
 
@@ -40,11 +38,6 @@ class MovimentacaoVenda
     public function getDescricao(): ?string
     {
         return $this->descricao;
-    }
-
-    public function getProdutoVendaIdProdutoVenda(): ?int
-    {
-        return $this->produtoVendaIdProdutoVenda;
     }
 
     public function getIdEstoque(): ?int
@@ -73,15 +66,8 @@ class MovimentacaoVenda
         $this->descricao = $descricao;
     }
 
-    public function setProdutoVendaIdProdutoVenda(?int $produtoVendaIdProdutoVenda): void
-    {
-        $this->produtoVendaIdProdutoVenda = $produtoVendaIdProdutoVenda;
-    }
-
     public function setIdEstoque(?int $idEstoque): void
     {
         $this->idEstoque = $idEstoque;
     }
 }
-
-?>
