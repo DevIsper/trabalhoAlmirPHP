@@ -58,7 +58,7 @@ use MODEL\MovimentacaoVenda as ModelMovimentacaoVenda;
     <h2 class="mt-5">Exemplo de Busca de Usuário (Individual)</h2>
     <?php
     $dalUsuario = new DALUsuario();
-    $usernameToSearch = "isper"; // Nome de usuário para testar a busca
+    $usernameToSearch = "admin"; // Nome de usuário para testar a busca
 
     try {
         $usuario = $dalUsuario->SelectUsuario($usernameToSearch);

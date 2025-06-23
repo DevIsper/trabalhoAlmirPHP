@@ -12,8 +12,12 @@ class Cliente
     private ?string $cidade;
     private ?string $estado;
     private ?string $cep;
+
     private ?string $dataCadastro; // Usar string para DATETIME/DATE do BD
     private ?string $cnpj; // ALTERADO: CNPJ agora é string
+
+    private ?string $dataCadastro;
+    private ?string $cnpj;
 
     public function __construct()
     {
@@ -76,6 +80,9 @@ class Cliente
     }
 
     public function getCnpj(): ?string // ALTERADO: Retorna string
+
+    public function getCnpj(): ?string
+
     {
         return $this->cnpj;
     }
@@ -126,7 +133,11 @@ class Cliente
         $this->dataCadastro = $dataCadastro;
     }
 
+
     public function setCnpj(?string $cnpj): void // ALTERADO: Aceita string
+
+    public function setCnpj(?string $cnpj): void
+
     {
         $this->cnpj = $cnpj;
     }
