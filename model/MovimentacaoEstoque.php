@@ -6,8 +6,8 @@ class MovimentacaoEstoque
 {
     private ?int $idMovimentacaoEstoque;
     private ?int $fornecedorCnpj;
-    private ?string $dataCompra; // DATE no BD
-    private ?float $valorTotal;   // DECIMAL(12,2) no BD
+    private ?string $dataCompra;
+    private ?float $valorTotal;
     private ?string $observacao;
     private ?int $internoProdutosIdInternoProd;
     private ?int $idEstoque;
@@ -23,7 +23,7 @@ class MovimentacaoEstoque
         $this->idEstoque = null;
     }
 
-    // Getters
+
     public function getIdMovimentacaoEstoque(): ?int
     {
         return $this->idMovimentacaoEstoque;
@@ -59,7 +59,7 @@ class MovimentacaoEstoque
         return $this->idEstoque;
     }
 
-    // Setters
+
     public function setIdMovimentacaoEstoque(?int $idMovimentacaoEstoque): void
     {
         $this->idMovimentacaoEstoque = $idMovimentacaoEstoque;

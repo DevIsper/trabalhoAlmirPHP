@@ -1,16 +1,16 @@
 <?php
 session_start();
 
-// Proteger o acesso direto
+
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: ../../view/login.php'); // Ajuste o caminho conforme sua estrutura
+    header('Location: ../../view/login.php');
     exit;
 }
 
-require_once "../../model/DAL/internoproduto.php"; // Caminho ajustado para DAL do interno produto
-require_once "../../model/InternoProduto.php";     // Caminho ajustado para Model do interno produto
+require_once "../../model/DAL/internoproduto.php";
+require_once "../../model/InternoProduto.php";
 
 use DAL\InternoProduto;
 use MODEL\InternoProduto as ModelInternoProduto;
@@ -18,31 +18,28 @@ use MODEL\InternoProduto as ModelInternoProduto;
 $internoProdutoDAL = new InternoProduto();
 $internoProduto = new ModelInternoProduto();
 
-// Funções para limpar e validar dados
+
 function sanitizeInput($data) {
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
-// Verifica se os dados foram enviados via POST
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Coleta e sanitiza os dados do formulário
+
     $idInternoProdutos = isset($_POST['idInternoProdutos']) ? (int)sanitizeInput($_POST['idInternoProdutos']) : null;
     $descricao = isset($_POST['descricao']) ? sanitizeInput($_POST['descricao']) : null;
 
-    // Define os atributos do objeto InternoProduto
-    $internoProduto->setIdInternoProdutos($idInternoProdutos); // Será null para novas inserções
+
+    $internoProduto->setIdInternoProdutos($idInternoProdutos);
     $internoProduto->setDescricao($descricao);
 
     $success = false;
     $action = "";
 
-    // Verifica se é uma edição (idInternoProdutos presente e maior que 0) ou uma nova inserção
     if ($idInternoProdutos > 0) {
-        // Tentativa de atualizar
         $success = $internoProdutoDAL->Update($internoProduto);
         $action = "atualizado";
     } else {
-        // Tentativa de inserir
         $success = $internoProdutoDAL->Insert($internoProduto);
         $action = "cadastrado";
     }
@@ -55,11 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['status'] = "danger";
     }
 
-    header('Location: ../../view/internoProdutoView.php'); // Redireciona de volta para a lista de produtos internos
+    header('Location: ../../view/internoProdutoView.php');
     exit;
 
 } else {
-    // Se não for POST, redireciona com erro
     $_SESSION['message'] = "Método de requisição inválido.";
     $_SESSION['status'] = "danger";
     header('Location: ../../view/internoProdutoView.php');

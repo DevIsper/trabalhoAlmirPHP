@@ -1,22 +1,22 @@
 <?php
 session_start();
 
-// Proteger o acesso direto
+
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: ../../view/login.php'); // Ajuste o caminho
+    header('Location: ../../view/login.php');
     exit;
 }
 
-require_once "../../model/DAL/internoproduto.php"; // Caminho ajustado
+require_once "../../model/DAL/internoproduto.php";
 
 use DAL\InternoProduto;
 
 $internoProdutoDAL = new InternoProduto();
 
 if (isset($_GET['id'])) {
-    $id = (int)filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT); // Garante que é um inteiro
+    $id = (int)filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
     if ($id > 0) {
         $success = $internoProdutoDAL->Delete($id);
@@ -37,6 +37,6 @@ if (isset($_GET['id'])) {
     $_SESSION['status'] = "warning";
 }
 
-header('Location: ../../view/internoProdutoView.php'); // Redireciona de volta para a lista de produtos internos
+header('Location: ../../view/internoProdutoView.php');
 exit;
 ?>

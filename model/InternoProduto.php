@@ -13,7 +13,7 @@ class InternoProduto
         $this->descricao = null;
     }
 
-    // Getters
+
     public function getIdInternoProdutos(): ?int
     {
         return $this->idInternoProdutos;
@@ -24,7 +24,7 @@ class InternoProduto
         return $this->descricao;
     }
 
-    // Setters
+
     public function setIdInternoProdutos(?int $idInternoProdutos): void
     {
         $this->idInternoProdutos = $idInternoProdutos;

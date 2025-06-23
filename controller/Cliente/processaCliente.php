@@ -7,11 +7,6 @@ require_once "../../model/Cliente.php";
 use DAL\Cliente as ClienteDAL;
 use MODEL\Cliente as ModelCliente;
 
-// --- FUNÇÕES DE VALIDAÇÃO (MANTER APENAS AS NECESSÁRIAS) ---
-
-// A função validaCNPJ será removida.
-// Manter as outras se forem usadas:
-
 /**
  * Valida um endereço de e-mail.
  * @param string $email O e-mail a ser validado.
@@ -27,21 +22,18 @@ function validaEmail(string $email): bool {
  * @return bool True se o CEP for válido, false caso contrário.
  */
 function validaCEP(string $cep): bool {
-    // Remove caracteres não numéricos
+
     $cep = preg_replace('/[^0-9]/', '', (string) $cep);
 
-    // Verifica se tem 8 dígitos
     return strlen($cep) === 8;
 }
-
-// --- FIM DAS FUNÇÕES DE VALIDAÇÃO ---
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clienteDAL = new ClienteDAL();
     $cliente = new ModelCliente();
 
-    // Limpa e sanitiza os dados de entrada
+
     $nome         = isset($_POST['nome']) ? htmlspecialchars(trim($_POST['nome'])) : null;
     $telefone     = isset($_POST['telefone']) ? htmlspecialchars(trim($_POST['telefone'])) : null;
     $email        = isset($_POST['email']) ? htmlspecialchars(trim($_POST['email'])) : null;
@@ -50,9 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $estado       = isset($_POST['estado']) ? htmlspecialchars(trim($_POST['estado'])) : null;
     $cep          = isset($_POST['cep']) ? htmlspecialchars(trim($_POST['cep'])) : null;
     $dataCadastro = isset($_POST['dataCadastro']) ? htmlspecialchars(trim($_POST['dataCadastro'])) : null;
-    $cnpj         = isset($_POST['cnpj']) ? htmlspecialchars(trim($_POST['cnpj'])) : null; // CNPJ será aceito sem validação
+    $cnpj         = isset($_POST['cnpj']) ? htmlspecialchars(trim($_POST['cnpj'])) : null;
 
-    // --- REALIZA AS VALIDAÇÕES PHP (REMOVENDO A VALIDAÇÃO DO CNPJ) ---
     $errors = [];
 
     if (empty($nome)) {
@@ -67,22 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "CEP inválido. Deve conter 8 dígitos numéricos.";
     }
 
-    // REMOVIDO: A VALIDAÇÃO DO CNPJ AQUI
-    /*
-    if (!validaCNPJ($cnpj)) {
-        $errors[] = "CNPJ inválido.";
-    }
-    */
-    // Adicione mais validações aqui conforme necessário para outros campos
-
-    // Se houver erros, armazena na sessão e redireciona de volta
     if (!empty($errors)) {
         $_SESSION['message'] = "Erro(s) de validação: <br>" . implode("<br>", $errors);
         $_SESSION['status'] = "danger";
         header('Location: ../../view/clienteView.php');
         exit;
     }
-    // --- FIM DAS VALIDAÇÕES PHP ---
 
 
     $cliente->setNome($nome);
@@ -93,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cliente->setEstado($estado);
     $cliente->setCep($cep);
     $cliente->setDataCadastro($dataCadastro);
-    $cliente->setCnpj($cnpj); // CNPJ será salvo como recebido, sem validação de conteúdo
+    $cliente->setCnpj($cnpj);
 
     if (isset($_POST['idCliente']) && !empty($_POST['idCliente'])) {
         $idCliente = (int)$_POST['idCliente'];

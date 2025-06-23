@@ -5,8 +5,8 @@ namespace MODEL;
 class MovimentacaoVenda
 {
     private ?int $idCliente;
-    private ?string $dataMovimentacao; // DATE no BD
-    private ?float $quantidade;       // DECIMAL(10,2) no BD
+    private ?string $dataMovimentacao;
+    private ?float $quantidade;
     private ?string $descricao;
     private ?int $idEstoque;
 
@@ -19,7 +19,7 @@ class MovimentacaoVenda
         $this->idEstoque = null;
     }
 
-    // Getters
+
     public function getIdCliente(): ?int
     {
         return $this->idCliente;
@@ -45,7 +45,7 @@ class MovimentacaoVenda
         return $this->idEstoque;
     }
 
-    // Setters
+
     public function setIdCliente(?int $idCliente): void
     {
         $this->idCliente = $idCliente;

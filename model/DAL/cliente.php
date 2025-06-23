@@ -3,10 +3,10 @@
 namespace DAL;
 
 include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../cliente.php"; // Inclui o modelo Cliente
+include_once __DIR__ . "/../cliente.php";
 
 use DAL\Conexao;
-use MODEL\Cliente as ModelCliente; // Alias para evitar conflito de nome
+use MODEL\Cliente as ModelCliente;
 
 class Cliente
 {

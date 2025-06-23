@@ -21,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuarioDAL = new UsuarioDAL();
     $usuario = $usuarioDAL->SelectUsuario($username);
 
-    // Modifique esta parte:
-    if ($usuario && $usuario->getSenha() === $password) { // Ou password_verify() se você estiver usando hashes
-        // Login bem-sucedido
+
+    if ($usuario && $usuario->getSenha() === $password) {
+
         $_SESSION['logged_in'] = true;
         $_SESSION['user_id'] = $usuario->getId();
         $_SESSION['username'] = $usuario->getUsuario();
@@ -33,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../../view/menu.php');
         exit;
     } else {
-        // Credenciais inválidas - AQUI VOCÊ DEFINE A MENSAGEM
-        $_SESSION['message'] = "Dados não aceitos."; // <-- ALtere esta linha
+
+        $_SESSION['message'] = "Dados não aceitos.";
         $_SESSION['status'] = "danger";
-        header('Location: ../../view/login.php'); // Redireciona de volta para a tela de login
+        header('Location: ../../view/login.php');
         exit;
     }
 

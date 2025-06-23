@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-// Proteger o acesso direto
+
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: ../../view/login.php'); // Ajuste o caminho
+    header('Location: ../../view/login.php');
     exit;
 }
 
@@ -15,7 +15,7 @@ use DAL\MovimentacaoEstoque;
 
 $movimentacaoEstoqueDAL = new MovimentacaoEstoque();
 
-// Para exclusão, precisamos de ambas as partes da chave primária composta
+
 if (isset($_GET['id']) && isset($_GET['data'])) {
     $id = (int)filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
     $data = filter_var($_GET['data'], FILTER_SANITIZE_STRING);
@@ -39,6 +39,6 @@ if (isset($_GET['id']) && isset($_GET['data'])) {
     $_SESSION['status'] = "warning";
 }
 
-header('Location: ../../view/movimentacaoEstoqueView.php'); // Redireciona de volta para a lista
+header('Location: ../../view/movimentacaoEstoqueView.php');
 exit;
 ?>

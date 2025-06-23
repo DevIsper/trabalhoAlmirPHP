@@ -1,16 +1,16 @@
 <?php
 session_start();
 
-// Proteger a página
+
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: login.php'); // Caminho para a sua tela de login, pois internoProdutoView.php está na mesma pasta view/
+    header('Location: login.php');
     exit;
 }
 
-require_once "../model/DAL/internoproduto.php"; // Caminho ajustado para DAL do interno produto
-require_once "../model/InternoProduto.php";// Caminho ajustado para Model do interno produto
+require_once "../model/DAL/internoproduto.php";
+require_once "../model/InternoProduto.php";
 
 use DAL\InternoProduto;
 use MODEL\InternoProduto as ModelInternoProduto;
@@ -18,7 +18,7 @@ use MODEL\InternoProduto as ModelInternoProduto;
 $internoProdutoDAL = new InternoProduto();
 $listaInternoProdutos = $internoProdutoDAL->Select();
 
-// Lógica para exibir mensagens flash
+
 $message = '';
 $status = '';
 if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
@@ -47,39 +47,39 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             padding-top: 30px;
             padding-bottom: 30px;
 
-            /* Adiciona imagem de fundo ao body */
-            background-image: url('img/imgFundoLogin.jpg'); /* Caminho para sua imagem */
-            background-size: cover; /* Cobre todo o espaço */
-            background-position: center; /* Centraliza a imagem */
-            background-repeat: no-repeat; /* Não repete a imagem */
-            background-attachment: fixed; /* Fixa a imagem para não rolar com o conteúdo */
-            position: relative; /* Necessário para o overlay */
-            z-index: 0; /* Garante que o body esteja sobre o overlay de si mesmo, se houver */
+
+            background-image: url('img/imgFundoLogin.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 0;
         }
-        body::before { /* Adiciona uma camada de overlay semi-transparente sobre a imagem de fundo do body */
+        body::before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Overlay preto com 50% de opacidade */
-            z-index: -1; /* Garante que o overlay esteja abaixo do conteúdo do body */
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
         }
         .container {
-            background-color: #ffffff; /* Fundo branco para o container principal */
-            border-radius: 8px; /* Cantos arredondados */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            padding: 30px; /* Espaçamento interno */
-            width: 100%; /* Largura total */
-            max-width: 900px; /* Largura máxima para esta tabela menor */
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 900px;
         }
         .table thead {
-            background-color: #2c3e50; /* Cor escura do cabeçalho da tabela */
+            background-color: #2c3e50;
             color: white;
         }
         .btn-primary {
-            background-color: #3498db; /* Azul mais vibrante */
+            background-color: #3498db;
             border-color: #3498db;
         }
         .btn-primary:hover {
@@ -87,7 +87,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #2980b9;
         }
         .btn-success {
-            background-color: #28a745; /* Verde Bootstrap padrão */
+            background-color: #28a745;
             border-color: #28a745;
         }
         .btn-success:hover {
@@ -95,7 +95,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #218838;
         }
         .btn-danger {
-            background-color: #dc3545; /* Vermelho Bootstrap padrão */
+            background-color: #dc3545;
             border-color: #dc3545;
         }
         .btn-danger:hover {
@@ -103,13 +103,13 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #c82333;
         }
         .modal-header.bg-primary {
-            background-color: #3498db !important; /* Assegura a cor do cabeçalho do modal */
+            background-color: #3498db !important;
         }
         .modal-header.bg-success {
             background-color: #28a745 !important;
         }
         .btn-close-white {
-            filter: invert(1) grayscale(100%) brightness(200%); /* Torna o X branco para fundos escuros */
+            filter: invert(1) grayscale(100%) brightness(200%);
         }
     </style>
 </head>
@@ -251,13 +251,6 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
                 }, false)
             })
     })()
-
-    // Não são necessárias máscaras de telefone, CNPJ, CEP ou decimal para este CRUD
-    // Este bloco pode ser removido completamente se não houver campos com máscaras
-    // ou deixado vazio caso queira adicionar máscaras futuras.
-    $(document).ready(function(){
-        // Se precisar de máscaras específicas para outros campos no futuro, adicione aqui.
-    });
 </script>
 
 </body>

@@ -1,15 +1,14 @@
 <?php
 session_start();
 
-// Proteger a página: se o usuário não estiver logado, redireciona para a página de login
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: login.php'); // Ajuste este caminho se seu login.php estiver em outro lugar
+    header('Location: login.php');
     exit;
 }
 
-$userName = $_SESSION['username'] ?? 'Usuário'; // Pega o nome de usuário da sessão, padrão 'Usuário' se não existir
+$userName = $_SESSION['username'] ?? 'Usuário';
 ?>
 
 <!DOCTYPE html>
@@ -28,41 +27,38 @@ $userName = $_SESSION['username'] ?? 'Usuário'; // Pega o nome de usuário da s
         }
         .sidebar {
             width: 250px;
-            /* REMOVIDO: background-color: #2c3e50; */
             color: white;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0,0,0,.1);
             flex-shrink: 0;
-
-            /* Adiciona imagem de fundo ao sidebar */
-            background-image: url('img/imgFundoLogin.jpg'); /* Caminho para sua imagem */
-            background-size: cover; /* Cobre todo o espaço */
-            background-position: center; /* Centraliza a imagem */
-            background-repeat: no-repeat; /* Não repete a imagem */
-            position: relative; /* Necessário para o overlay */
-            z-index: 1; /* Garante que o sidebar esteja sobre o overlay */
+            background-image: url('img/imgFundoLogin.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            z-index: 1;
         }
-        .sidebar::before { /* Adiciona uma camada de overlay semi-transparente */
+        .sidebar::before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(44, 62, 80, 0.85); /* Cor escura com 85% de opacidade */
-            z-index: -1; /* Garante que o overlay esteja abaixo do conteúdo do sidebar */
+            background-color: rgba(44, 62, 80, 0.85);
+            z-index: -1;
         }
         .sidebar .list-group-item {
             background-color: transparent;
             color: white;
             border: none;
             padding: 10px 15px;
-            position: relative; /* Para garantir que o texto esteja acima do overlay */
+            position: relative;
             z-index: 1;
         }
         .sidebar .list-group-item:hover,
         .sidebar .list-group-item.active {
-            background-color: rgba(52, 73, 94, 0.7); /* Cor de fundo ao passar o mouse ou ativo com opacidade */
+            background-color: rgba(52, 73, 94, 0.7);
             border-radius: 5px;
         }
         .sidebar .list-group-item i {
@@ -154,22 +150,20 @@ $userName = $_SESSION['username'] ?? 'Usuário'; // Pega o nome de usuário da s
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Script para adicionar a classe 'active' ao item do menu lateral
-        // baseado na URL atual.
         document.addEventListener("DOMContentLoaded", function() {
             var path = window.location.pathname;
-            var filename = path.split('/').pop(); // Obtém o nome do arquivo da URL
+            var filename = path.split('/').pop();
 
             var navLinks = document.querySelectorAll('.sidebar .list-group-item');
             navLinks.forEach(function(link) {
-                // Remove a classe 'active' de todos
+
                 link.classList.remove('active');
-                // Se o href do link corresponder ao nome do arquivo atual, adiciona 'active'
+
                 if (link.getAttribute('href') === filename) {
                     link.classList.add('active');
                 }
             });
-            // Caso especial para a Home
+
             if (filename === '' || filename === 'menu.php') {
                 document.querySelector('.sidebar a[href="menu.php"]').classList.add('active');
             }

@@ -3,10 +3,10 @@
 namespace DAL;
 
 include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../usuario.php"; // Inclui o modelo Usuario
+include_once __DIR__ . "/../usuario.php";
 
 use DAL\Conexao;
-use MODEL\Usuario as ModelUsuario; // Alias para evitar conflito de nome
+use MODEL\Usuario as ModelUsuario;
 
 class Usuario
 {
@@ -18,7 +18,7 @@ class Usuario
      */
     public function Insert(ModelUsuario $usuario): bool
     {
-        // ATENÇÃO AQUI: Mudado de USER para usuario
+
         $sql = "INSERT INTO usuario (USERNAME, PASSWORD) VALUES (?, ?);";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
@@ -34,7 +34,7 @@ class Usuario
      */
     public function SelectUsuario(string $username): ?ModelUsuario
     {
-        // ATENÇÃO AQUI: Mudado de USER para usuario
+
         $sql = "SELECT * FROM usuario WHERE USERNAME = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
@@ -47,10 +47,7 @@ class Usuario
         }
 
         $usuarioObj = new ModelUsuario();
-        // Verifique se o nome da coluna do ID no seu BD é idUSER ou idusuario
-        // Se for idUSER: $usuarioObj->setId($linha['idUSER']);
-        // Se for idusuario: $usuarioObj->setId($linha['idusuario']);
-        $usuarioObj->setId($linha['idUSER']); // Assumindo que o nome da coluna ID continua sendo 'idUSER'
+        $usuarioObj->setId($linha['idUSER']);
         $usuarioObj->setUsuario($linha['USERNAME']);
         $usuarioObj->setSenha($linha['PASSWORD']);
 
@@ -64,7 +61,6 @@ class Usuario
      */
     public function SelectById(int $id): ?ModelUsuario
     {
-        // ATENÇÃO AQUI: Mudado de USER para usuario
         $sql = "SELECT * FROM usuario WHERE idUSER = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
@@ -77,7 +73,7 @@ class Usuario
         }
 
         $usuarioObj = new ModelUsuario();
-        $usuarioObj->setId($linha['idUSER']); // Assumindo que o nome da coluna ID continua sendo 'idUSER'
+        $usuarioObj->setId($linha['idUSER']);
         $usuarioObj->setUsuario($linha['USERNAME']);
         $usuarioObj->setSenha($linha['PASSWORD']);
 
@@ -90,7 +86,6 @@ class Usuario
      */
     public function Select(): array
     {
-        // ATENÇÃO AQUI: Mudado de USER para usuario
         $sql = "SELECT * FROM usuario;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
@@ -101,7 +96,7 @@ class Usuario
         $usuarios = array();
         foreach ($registros as $linha) {
             $usuarioObj = new ModelUsuario();
-            $usuarioObj->setId($linha['idUSER']); // Assumindo que o nome da coluna ID continua sendo 'idUSER'
+            $usuarioObj->setId($linha['idUSER']);
             $usuarioObj->setUsuario($linha['USERNAME']);
             $usuarioObj->setSenha($linha['PASSWORD']);
             $usuarios[] = $usuarioObj;
@@ -116,7 +111,7 @@ class Usuario
      */
     public function Update(ModelUsuario $usuario): bool
     {
-        // ATENÇÃO AQUI: Mudado de USER para usuario
+
         $sql = "UPDATE usuario SET USERNAME = ?, PASSWORD = ? WHERE idUSER = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
@@ -132,7 +127,6 @@ class Usuario
      */
     public function Delete(int $id): bool
     {
-        // ATENÇÃO AQUI: Mudado de USER para usuario
         $sql = "DELETE FROM usuario WHERE idUSER = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);

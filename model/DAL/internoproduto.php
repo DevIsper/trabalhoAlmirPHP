@@ -3,7 +3,7 @@
 namespace DAL;
 
 include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../internoproduto.php"; // Inclui o modelo InternoProduto
+include_once __DIR__ . "/../internoproduto.php";
 
 use DAL\Conexao;
 use MODEL\InternoProduto as ModelInternoProduto;

@@ -1,5 +1,4 @@
 <?php
-// Inicia a sessão para exibir mensagens flash, se houver.
 session_start();
 
 $message = '';
@@ -24,82 +23,78 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Caminho da imagem de fundo, confirmado como .jpg */
+
             background-image: url('img/imgFundoLogin.jpg');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            margin: 0; /* Garante que não haja margens no body */
+            margin: 0;
         }
         .login-container {
-            /* --- INÍCIO DAS CONFIGURAÇÕES DE TAMANHO DO QUADRADO DO LOGIN --- */
-            /* max-width: Define a largura máxima do contêiner. Ajuste este valor para maior ou menor. */
-            /* Ex: 400px (padrão), 500px, 550px, 600px */
-            max-width: 550px; /* Sugestão para deixá-lo maior, como na imagem */
+            max-width: 550px;
 
-            /* padding: Define o espaço interno do contêiner. Aumentar isso também o faz parecer maior. */
-            /* Ajuste este valor (Ex: 30px, 40px, 50px) */
-            padding: 55px; /* Sugestão para mais espaço interno e visual maior */
-            /* --- FIM DAS CONFIGURAÇÕES DE TAMANHO DO QUADRADO DO LOGIN --- */
+
+            padding: 55px;
+
             
             border-radius: 10px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            background-color: rgba(0, 0, 0, 0.57); /* Preto com 50% de opacidade (para fundo escuro) */
+            background-color: rgba(0, 0, 0, 0.57);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* Para compatibilidade com navegadores Webkit */
-            border: 1px solid rgba(248, 242, 242, 0.8); /* Borda sutil branca */
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(248, 242, 242, 0.8);
         }
         .login-header {
             margin-bottom: 30px;
             text-align: center;
-            color: white; /* Texto branco */
-            font-weight: bold; /* Negrito para o título */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Sombra no texto para melhor legibilidade */
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        /* Estilos para os campos de input do Bootstrap */
+
         .form-control {
-            background-color: transparent !important; /* Fundo transparente, !important para sobrescrever Bootstrap */
-            border: 1px solid rgba(255, 255, 255, 0.6) !important; /* Borda branca transparente */
-            color: white !important; /* Cor do texto digitado nos campos */
-            border-radius: 30px !important; /* Cantos mais arredondados */
-            padding: 0.75rem 1rem !important; /* Ajuste de padding */
+            background-color: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            color: white !important;
+            border-radius: 30px !important;
+            padding: 0.75rem 1rem !important;
         }
 
-        /* Estilo para o placeholder dos campos de input */
+
         .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.8) !important; /* Placeholder branco transparente */
-            opacity: 1; /* Garante que a opacidade seja mantida em todos os navegadores */
+            color: rgba(255, 255, 255, 0.8) !important;
+            opacity: 1;
         }
 
-        /* Estilo para o estado de foco (quando o campo está selecionado) */
+
         .form-control:focus {
-            border-color: white !important; /* Borda branca sólida no foco */
-            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25) !important; /* Sombra branca suave no foco */
-            background-color: rgba(255, 255, 255, 0.05) !important; /* Pequeno fundo transparente no foco para contraste */
+            border-color: white !important;
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25) !important;
+            background-color: rgba(255, 255, 255, 0.05) !important;
         }
 
-        /* Estilos para o botão de login do Bootstrap */
+
         .btn-primary {
-            background-color: white !important; /* Fundo branco, !important para sobrescrever Bootstrap */
-            border-color: white !important; /* Borda branca */
-            color: black !important; /* Texto preto */
-            border-radius: 25px !important; /* Muito arredondado (estilo pílula) */
-            font-weight: bold; /* Texto em negrito */
-            padding: 0.75rem 1.5rem !important; /* Ajuste de padding */
+            background-color: white !important;
+            border-color: white !important;
+            color: black !important;
+            border-radius: 25px !important;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem !important;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Transição suave para hover e click */
         }
         .btn-primary:hover {
-            background-color: rgba(255, 255, 255, 0.9) !important; /* Levemente menos branco no hover */
+            background-color: rgba(255, 255, 255, 0.9) !important;
             border-color: rgba(255, 255, 255, 0.9) !important;
             color: black !important;
-            transform: translateY(-1px); /* Pequeno efeito de levantamento */
+            transform: translateY(-1px);
         }
         .btn-primary:active {
             background-color: rgba(255, 255, 255, 0.8) !important;
             border-color: rgba(255, 255, 255, 0.8) !important;
-            transform: translateY(0); /* Retorna à posição normal */
+            transform: translateY(0);
         }
     </style>
 </head>

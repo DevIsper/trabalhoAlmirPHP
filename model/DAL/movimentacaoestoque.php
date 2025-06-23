@@ -3,10 +3,10 @@
 namespace DAL;
 
 include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../movimentacaoestoque.php"; // Inclui o modelo MovimentacaoEstoque
-include_once __DIR__ . "/../fornecedor.php"; // Necessário para joins/relacionamentos
-include_once __DIR__ . "/../estoque.php"; // Necessário para joins/relacionamentos
-include_once __DIR__ . "/../internoproduto.php"; // Necessário para joins/relacionamentos
+include_once __DIR__ . "/../movimentacaoestoque.php";
+include_once __DIR__ . "/../fornecedor.php";
+include_once __DIR__ . "/../estoque.php";
+include_once __DIR__ . "/../internoproduto.php";
 
 use DAL\Conexao;
 use MODEL\MovimentacaoEstoque as ModelMovimentacaoEstoque;
@@ -103,12 +103,6 @@ class MovimentacaoEstoque
             $movimentacaoObj->setIdEstoque($linha['idESTOQUE']);
 
             if ($incluirRelacionamentos) {
-                // Aqui você pode estender o ModelMovimentacaoEstoque
-                // para ter propriedades que armazenem os objetos relacionados,
-                // ou simplesmente usar os dados do JOIN.
-                // Por simplicidade, vou apenas mostrar como os dados viriam.
-                // Para carregar objetos completos, você precisaria de mais lógica
-                // dentro do ModelMovimentacaoEstoque ou criar um DTO específico.
                 $movimentacaoObj->fornecedorNome = $linha['FORNECEDOR_NOME'];
                 $movimentacaoObj->estoqueNome = $linha['ESTOQUE_NOME'];
                 $movimentacaoObj->internoProdutoDescricao = $linha['INTERNO_PRODUTO_DESCRICAO'];

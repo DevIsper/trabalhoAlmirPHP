@@ -8,8 +8,8 @@ class Estoque
     private ?string $nome;
     private ?string $tipoEstoque;
     private ?string $unidadeMedida;
-    private ?float $quantidade; // DECIMAL(10,2) no BD
-    private ?float $precoVenda; // DECIMAL(10,2) no BD
+    private ?float $quantidade;
+    private ?float $precoVenda;
 
     public function __construct()
     {
@@ -21,7 +21,7 @@ class Estoque
         $this->precoVenda = null;
     }
 
-    // Getters
+
     public function getIdEstoque(): ?int
     {
         return $this->idEstoque;
@@ -52,7 +52,7 @@ class Estoque
         return $this->precoVenda;
     }
 
-    // Setters
+
     public function setIdEstoque(?int $idEstoque): void
     {
         $this->idEstoque = $idEstoque;

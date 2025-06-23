@@ -1,17 +1,16 @@
 <?php
 session_start();
 
-// --- NOVO CÓDIGO PARA PROTEGER A PÁGINA ---
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    // Se o usuário não estiver logado, redireciona para a página de login.
+
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: login.php'); // Caminho para a sua tela de login, pois fornecedorView.php está na mesma pasta view/
+    header('Location: login.php');
     exit;
 }
-// --- FIM DO CÓDIGO DE PROTEÇÃO ---
-require_once "../model/DAL/fornecedor.php"; // Caminho ajustado para DAL do fornecedor
-require_once "../model/Fornecedor.php";  // Caminho ajustado para Model do fornecedor
+
+require_once "../model/DAL/fornecedor.php";
+require_once "../model/Fornecedor.php";
 
 use DAL\Fornecedor;
 use MODEL\Fornecedor as ModelFornecedor;
@@ -19,13 +18,12 @@ use MODEL\Fornecedor as ModelFornecedor;
 $fornecedorDAL = new Fornecedor();
 $listaFornecedores = $fornecedorDAL->Select();
 
-// --- Lógica para exibir mensagens flash ---
 $message = '';
 $status = '';
 if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
     $message = $_SESSION['message'];
     $status = $_SESSION['status'];
-    // Limpa as variáveis de sessão para que a mensagem não apareça novamente após um refresh
+
     unset($_SESSION['message']);
     unset($_SESSION['status']);
 }
@@ -49,39 +47,38 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             padding-top: 30px;
             padding-bottom: 30px;
 
-            /* Adiciona imagem de fundo ao body */
-            background-image: url('img/imgFundoLogin.jpg'); /* Caminho para sua imagem */
-            background-size: cover; /* Cobre todo o espaço */
-            background-position: center; /* Centraliza a imagem */
-            background-repeat: no-repeat; /* Não repete a imagem */
-            background-attachment: fixed; /* Fixa a imagem para não rolar com o conteúdo */
-            position: relative; /* Necessário para o overlay */
-            z-index: 0; /* Garante que o body esteja sobre o overlay de si mesmo, se houver */
+            background-image: url('img/imgFundoLogin.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 0;
         }
-        body::before { /* Adiciona uma camada de overlay semi-transparente sobre a imagem de fundo do body */
+        body::before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Overlay preto com 50% de opacidade */
-            z-index: -1; /* Garante que o overlay esteja abaixo do conteúdo do body */
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
         }
         .container {
-            background-color: #ffffff; /* Fundo branco para o container principal */
-            border-radius: 8px; /* Cantos arredondados */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            padding: 30px; /* Espaçamento interno */
-            width: 100%; /* Largura total */
-            max-width: 1200px; /* Largura máxima para tabelas grandes */
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 1200px;
         }
         .table thead {
-            background-color: #2c3e50; /* Cor escura do cabeçalho da tabela */
+            background-color: #2c3e50;
             color: white;
         }
         .btn-primary {
-            background-color: #3498db; /* Azul mais vibrante */
+            background-color: #3498db;
             border-color: #3498db;
         }
         .btn-primary:hover {
@@ -89,7 +86,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #2980b9;
         }
         .btn-success {
-            background-color: #28a745; /* Verde Bootstrap padrão */
+            background-color: #28a745;
             border-color: #28a745;
         }
         .btn-success:hover {
@@ -97,7 +94,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #218838;
         }
         .btn-danger {
-            background-color: #dc3545; /* Vermelho Bootstrap padrão */
+            background-color: #dc3545;
             border-color: #dc3545;
         }
         .btn-danger:hover {
@@ -105,13 +102,13 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #c82333;
         }
         .modal-header.bg-primary {
-            background-color: #3498db !important; /* Assegura a cor do cabeçalho do modal */
+            background-color: #3498db !important;
         }
         .modal-header.bg-success {
             background-color: #28a745 !important;
         }
         .btn-close-white {
-            filter: invert(1) grayscale(100%) brightness(200%); /* Torna o X branco para fundos escuros */
+            filter: invert(1) grayscale(100%) brightness(200%);
         }
     </style>
 </head>
@@ -309,9 +306,8 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             })
     })()
 
-    // Inicialização do jQuery Mask Plugin
+
     $(document).ready(function(){
-        // Removi a máscara de CEP pois fornecedor não possui esse campo no seu HTML fornecido
         $('.cnpj-mask').mask('00.000.000/0000-00', {reverse: true});
 
         var SPMaskBehavior = function (val) {

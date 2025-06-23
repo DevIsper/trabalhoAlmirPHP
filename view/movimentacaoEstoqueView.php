@@ -1,19 +1,18 @@
 <?php
 session_start();
 
-// Proteger a página
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: login.php'); // Caminho para a sua tela de login, pois movimentacaoEstoqueView.php está na mesma pasta view/
+    header('Location: login.php');
     exit;
 }
 
 require_once "../model/DAL/movimentacaoEstoque.php";
 require_once "../model/MovimentacaoEstoque.php";
-require_once "../model/DAL/fornecedor.php"; // Para popular o dropdown de fornecedores
-require_once "../model/DAL/estoque.php";    // Para popular o dropdown de estoque
-require_once "../model/DAL/internoproduto.php"; // Para popular o dropdown de produtos internos
+require_once "../model/DAL/fornecedor.php";
+require_once "../model/DAL/estoque.php";
+require_once "../model/DAL/internoproduto.php";
 
 use DAL\MovimentacaoEstoque;
 use MODEL\MovimentacaoEstoque as ModelMovimentacaoEstoque;
@@ -22,10 +21,8 @@ use DAL\Estoque;
 use DAL\InternoProduto;
 
 $movimentacaoEstoqueDAL = new MovimentacaoEstoque();
-// Carrega as movimentações com os nomes dos relacionados
 $listaMovimentacoes = $movimentacaoEstoqueDAL->Select(true);
 
-// Instâncias das DALs para popular os dropdowns nos modais
 $fornecedorDAL = new Fornecedor();
 $listaFornecedores = $fornecedorDAL->Select();
 
@@ -35,7 +32,6 @@ $listaEstoque = $estoqueDAL->Select();
 $internoProdutoDAL = new InternoProduto();
 $listaInternoProdutos = $internoProdutoDAL->Select();
 
-// Lógica para exibir mensagens flash
 $message = '';
 $status = '';
 if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
@@ -59,44 +55,43 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Alinhar ao topo para permitir scroll */
+            align-items: flex-start;
             min-height: 100vh;
             padding-top: 30px;
             padding-bottom: 30px;
 
-            /* Adiciona imagem de fundo ao body */
-            background-image: url('img/imgFundoLogin.jpg'); /* Caminho para sua imagem */
-            background-size: cover; /* Cobre todo o espaço */
-            background-position: center; /* Centraliza a imagem */
-            background-repeat: no-repeat; /* Não repete a imagem */
-            background-attachment: fixed; /* Fixa a imagem para não rolar com o conteúdo */
-            position: relative; /* Necessário para o overlay */
-            z-index: 0; /* Garante que o body esteja sobre o overlay de si mesmo, se houver */
+            background-image: url('img/imgFundoLogin.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 0;
         }
-        body::before { /* Adiciona uma camada de overlay semi-transparente sobre a imagem de fundo do body */
+        body::before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Overlay preto com 50% de opacidade */
-            z-index: -1; /* Garante que o overlay esteja abaixo do conteúdo do body */
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
         }
         .container {
-            background-color: #ffffff; /* Fundo branco para o container principal */
-            border-radius: 8px; /* Cantos arredondados */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            padding: 30px; /* Espaçamento interno */
-            width: 100%; /* Largura total */
-            max-width: 1300px; /* Largura máxima para esta tabela com mais colunas */
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 1300px;
         }
         .table thead {
-            background-color: #2c3e50; /* Cor escura do cabeçalho da tabela */
+            background-color: #2c3e50;
             color: white;
         }
         .btn-primary {
-            background-color: #3498db; /* Azul mais vibrante */
+            background-color: #3498db;
             border-color: #3498db;
         }
         .btn-primary:hover {
@@ -104,7 +99,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #2980b9;
         }
         .btn-success {
-            background-color: #28a745; /* Verde Bootstrap padrão */
+            background-color: #28a745;
             border-color: #28a745;
         }
         .btn-success:hover {
@@ -112,7 +107,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #218838;
         }
         .btn-danger {
-            background-color: #dc3545; /* Vermelho Bootstrap padrão */
+            background-color: #dc3545;
             border-color: #dc3545;
         }
         .btn-danger:hover {
@@ -120,13 +115,13 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             border-color: #c82333;
         }
         .modal-header.bg-primary {
-            background-color: #3498db !important; /* Assegura a cor do cabeçalho do modal */
+            background-color: #3498db !important;
         }
         .modal-header.bg-success {
             background-color: #28a745 !important;
         }
         .btn-close-white {
-            filter: invert(1) grayscale(100%) brightness(200%); /* Torna o X branco para fundos escuros */
+            filter: invert(1) grayscale(100%) brightness(200%);
         }
     </style>
 </head>
@@ -178,10 +173,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
                     <td><?= htmlspecialchars($mov->estoqueNome ?? 'N/A'); ?></td>
                     <td class="text-center">
                         <?php
-                            // Crie um ID único para o modal de edição baseado na PK composta (idMovimentacaoEstoque e dataCompra)
-                            // Remove caracteres não alfanuméricos da data para uso no ID HTML
                             $modalId = "modalEditar" . $mov->getIdMovimentacaoEstoque() . str_replace(['-', ' '], '', $mov->getDataCompra());
-                            // Codifique os parâmetros da PK para a URL de exclusão
                             $deleteParams = "id=" . urlencode($mov->getIdMovimentacaoEstoque()) .
                                             "&data=" . urlencode($mov->getDataCompra());
                         ?>

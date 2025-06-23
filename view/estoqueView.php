@@ -1,16 +1,16 @@
 <?php
 session_start();
 
-// Proteger a página
+
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['message'] = "Você precisa fazer login para acessar esta página.";
     $_SESSION['status'] = "warning";
-    header('Location: ../view/login.php'); // Caminho para a sua tela de login
+    header('Location: ../view/login.php');
     exit;
 }
 
-require_once "../model/DAL/estoque.php"; // Caminho ajustado para DAL do estoque
-require_once "../model/Estoque.php";     // Caminho ajustado para Model do estoque
+require_once "../model/DAL/estoque.php";
+require_once "../model/Estoque.php";
 
 use DAL\Estoque;
 use MODEL\Estoque as ModelEstoque;
@@ -18,7 +18,6 @@ use MODEL\Estoque as ModelEstoque;
 $estoqueDAL = new Estoque();
 $listaItensEstoque = $estoqueDAL->Select();
 
-// Lógica para exibir mensagens flash
 $message = '';
 $status = '';
 if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
@@ -226,13 +225,10 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
             })
     })()
 
-    // Inicialização do jQuery Mask Plugin
     $(document).ready(function(){
-        // Máscara para números decimais (quantidade e preço)
-        // Permite 2 casas decimais e usa vírgula como separador
+
         $('.decimal-mask').mask('000.000.000.000,00', {reverse: true, placeholder: "0,00"});
-        
-        // Máscara para telefone (mantida do cliente/fornecedor, caso precise em outro lugar)
+
         var SPMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
         },
@@ -243,10 +239,10 @@ if (isset($_SESSION['message']) && isset($_SESSION['status'])) {
         };
         $('.telefone-mask').mask(SPMaskBehavior, spOptions);
 
-        // Máscara para CNPJ (mantida do cliente/fornecedor, caso precise em outro lugar)
+
         $('.cnpj-mask').mask('00.000.000/0000-00', {reverse: true});
         
-        // Máscara para CEP (mantida do cliente/fornecedor, caso precise em outro lugar)
+
         $('.cep-mask').mask('00000-000');
     });
 </script>

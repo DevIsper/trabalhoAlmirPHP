@@ -3,7 +3,7 @@
 namespace DAL;
 
 include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../estoque.php"; // Inclui o modelo Estoque
+include_once __DIR__ . "/../estoque.php";
 
 use DAL\Conexao;
 use MODEL\Estoque as ModelEstoque;

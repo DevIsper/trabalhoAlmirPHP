@@ -3,9 +3,9 @@
 namespace DAL;
 
 include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../movimentacaovenda.php"; // Inclui o modelo MovimentacaoVenda
-include_once __DIR__ . "/../cliente.php"; // Necessário para joins/relacionamentos
-include_once __DIR__ . "/../estoque.php"; // Necessário para joins/relacionamentos
+include_once __DIR__ . "/../movimentacaovenda.php";
+include_once __DIR__ . "/../cliente.php";
+include_once __DIR__ . "/../estoque.php";
 
 use DAL\Conexao;
 use MODEL\MovimentacaoVenda as ModelMovimentacaoVenda;
@@ -79,7 +79,7 @@ class MovimentacaoVenda
                         FROM MOVIMENTACAO_VENDAS MV
                         LEFT JOIN CLIENTE C ON MV.idCLIENTE = C.idCLIENTE
                         LEFT JOIN ESTOQUE E ON MV.idESTOQUE = E.idESTOQUE
-                        ORDER BY MV.DATA_MOVIMENTACAO DESC;"; // Adicionado ORDER BY
+                        ORDER BY MV.DATA_MOVIMENTACAO DESC;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $query->execute();
