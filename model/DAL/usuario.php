@@ -2,12 +2,11 @@
 
 namespace DAL;
 
-
 include_once __DIR__ . "/conexao.php";
-include_once __DIR__ . "/../usuario.php";
+include_once __DIR__ . "/../usuario.php"; // Inclui o modelo Usuario
 
 use DAL\Conexao;
-use MODEL\Usuario as ModelUsuario;
+use MODEL\Usuario as ModelUsuario; // Alias para evitar conflito de nome
 
 class Usuario
 {
@@ -19,7 +18,8 @@ class Usuario
      */
     public function Insert(ModelUsuario $usuario): bool
     {
-        $sql = "INSERT INTO USER (USERNAME, PASSWORD) VALUES (?, ?);";
+        // ATENÇÃO AQUI: Mudado de USER para usuario
+        $sql = "INSERT INTO usuario (USERNAME, PASSWORD) VALUES (?, ?);";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $result = $query->execute(array($usuario->getUsuario(), $usuario->getSenha()));
@@ -34,7 +34,8 @@ class Usuario
      */
     public function SelectUsuario(string $username): ?ModelUsuario
     {
-        $sql = "SELECT * FROM USER WHERE USERNAME = ?;";
+        // ATENÇÃO AQUI: Mudado de USER para usuario
+        $sql = "SELECT * FROM usuario WHERE USERNAME = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $query->execute(array($username));
@@ -46,7 +47,10 @@ class Usuario
         }
 
         $usuarioObj = new ModelUsuario();
-        $usuarioObj->setId($linha['idUSER']);
+        // Verifique se o nome da coluna do ID no seu BD é idUSER ou idusuario
+        // Se for idUSER: $usuarioObj->setId($linha['idUSER']);
+        // Se for idusuario: $usuarioObj->setId($linha['idusuario']);
+        $usuarioObj->setId($linha['idUSER']); // Assumindo que o nome da coluna ID continua sendo 'idUSER'
         $usuarioObj->setUsuario($linha['USERNAME']);
         $usuarioObj->setSenha($linha['PASSWORD']);
 
@@ -60,7 +64,8 @@ class Usuario
      */
     public function SelectById(int $id): ?ModelUsuario
     {
-        $sql = "SELECT * FROM USER WHERE idUSER = ?;";
+        // ATENÇÃO AQUI: Mudado de USER para usuario
+        $sql = "SELECT * FROM usuario WHERE idUSER = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $query->execute(array($id));
@@ -72,7 +77,7 @@ class Usuario
         }
 
         $usuarioObj = new ModelUsuario();
-        $usuarioObj->setId($linha['idUSER']);
+        $usuarioObj->setId($linha['idUSER']); // Assumindo que o nome da coluna ID continua sendo 'idUSER'
         $usuarioObj->setUsuario($linha['USERNAME']);
         $usuarioObj->setSenha($linha['PASSWORD']);
 
@@ -85,7 +90,8 @@ class Usuario
      */
     public function Select(): array
     {
-        $sql = "SELECT * FROM USER;";
+        // ATENÇÃO AQUI: Mudado de USER para usuario
+        $sql = "SELECT * FROM usuario;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $query->execute();
@@ -95,7 +101,7 @@ class Usuario
         $usuarios = array();
         foreach ($registros as $linha) {
             $usuarioObj = new ModelUsuario();
-            $usuarioObj->setId($linha['idUSER']);
+            $usuarioObj->setId($linha['idUSER']); // Assumindo que o nome da coluna ID continua sendo 'idUSER'
             $usuarioObj->setUsuario($linha['USERNAME']);
             $usuarioObj->setSenha($linha['PASSWORD']);
             $usuarios[] = $usuarioObj;
@@ -110,7 +116,8 @@ class Usuario
      */
     public function Update(ModelUsuario $usuario): bool
     {
-        $sql = "UPDATE USER SET USERNAME = ?, PASSWORD = ? WHERE idUSER = ?;";
+        // ATENÇÃO AQUI: Mudado de USER para usuario
+        $sql = "UPDATE usuario SET USERNAME = ?, PASSWORD = ? WHERE idUSER = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $result = $query->execute(array($usuario->getUsuario(), $usuario->getSenha(), $usuario->getId()));
@@ -125,7 +132,8 @@ class Usuario
      */
     public function Delete(int $id): bool
     {
-        $sql = "DELETE FROM USER WHERE idUSER = ?;";
+        // ATENÇÃO AQUI: Mudado de USER para usuario
+        $sql = "DELETE FROM usuario WHERE idUSER = ?;";
         $con = Conexao::conectar();
         $query = $con->prepare($sql);
         $result = $query->execute(array($id));
